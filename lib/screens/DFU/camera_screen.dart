@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:diabe_trek/providers/dfu_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen(this.camera, {super.key});
@@ -90,6 +92,7 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dTUProvider = Provider.of<DFUProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('DFU Photo')),
       body: Column(
@@ -99,6 +102,13 @@ class DisplayPictureScreen extends StatelessWidget {
             child: Image.file(
               File(imagePath),
             ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              dTUProvider.analyzeImage(context, imagePath);
+            },
+            child: const Text('Analyze Image'),
           ),
         ],
       ),
